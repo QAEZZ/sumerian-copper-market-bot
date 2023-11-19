@@ -1,12 +1,10 @@
-import sqlite3
-
 
 class Trader:
-    def __init__(self, user_id: int, init_bal_low_grade: int = 0, init_bal_medium_grade: int = 0, init_bal_high_grade: int = 0):
+    def __init__(self, user_id: int, bal_low_grade: int = 0, bal_medium_grade: int = 0, bal_high_grade: int = 0):
         self.__user_id = user_id
-        self.__low_grade_balance = init_bal_low_grade
-        self.__medium_grade_balance = init_bal_medium_grade
-        self.__high_grade_balance = init_bal_high_grade
+        self.__low_grade_balance = bal_low_grade
+        self.__medium_grade_balance = bal_medium_grade
+        self.__high_grade_balance = bal_high_grade
 
     @property
     def user_id(self) -> int:
@@ -38,20 +36,3 @@ class Trader:
 
     def __str__(self):
         return f"Trader(user_id={self.user_id}, low_grade_balance={self.low_grade_balance}, medium_grade_balance={self.medium_grade_balance}, high_grade_balance={self.high_grade_balance})"
-
-
-
-def db_create_trader(trader_instance) -> None:
-    user_id = trader_instance.user_id
-    low_grade_balance = trader_instance.low_grade_balance
-    medium_grade_balance = trader_instance.medium_grade_balance
-    high_grade_balance = trader_instance.high_grade_balance
-
-    conn = sqlite3.connect("db/traders.db")
-    cursor = conn.cursor()
-
-    cursor.execute("INSERT INTO traders (user_id, low_grade_balance, medium_grade_balance, high_grade_balance) VALUES (?, ?, ?, ?)",
-                   (user_id, low_grade_balance, medium_grade_balance, high_grade_balance))
-
-    conn.commit()
-    conn.close()

@@ -6,6 +6,8 @@ LOGO = 'https://cdn.discordapp.com/attachments/977002095930662962/11753047010430
 
 PREFIX = 'scm.'
 CLIENT_ID = 1175302342212599899
+CLIENT_OWNER = 1123758641485459477
 ACTIVITY = discord.Game('Bartering for copper.')
 
 COG_ACCESS = [1123758641485459477] # allowed to load, unload, and reload cogs
+ECONOMY_MODERATOR = [1123758641485459477] # allowed to use moderation commands for the economy

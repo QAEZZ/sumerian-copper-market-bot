@@ -4,7 +4,7 @@ import constants
 import asyncio
 import os, sys
 
-import sqlite3
+import tests.run_tests as tester
 import datetime
 
 import discord
@@ -101,29 +101,16 @@ async def on_command_error(ctx, error):
         await ctx.reply(embed=embed)
 
 
-async def start():
+def setup():
+    tester.start()
+    asyncio.run(start_client())
+
+async def start_client():
     with open(os.path.abspath("secrets/token.key"), "r") as f:
         TOKEN = f.read()
-        # f.close()
 
         await client.start(TOKEN)
 
 
 if __name__ == "__main__":
-    conn = sqlite3.connect("db/traders.db")
-
-    conn.execute(
-        """
-    CREATE TABLE IF NOT EXISTS traders (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER NOT NULL,
-        low_grade_balance INTEGER NOT NULL DEFAULT 0,
-        medium_grade_balance INTEGER NOT NULL DEFAULT 0,
-        high_grade_balance INTEGER NOT NULL DEFAULT 0
-    )
-    """
-    )
-
-    conn.close()
-
-    asyncio.run(start())
+    setup()

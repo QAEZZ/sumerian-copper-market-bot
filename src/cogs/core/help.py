@@ -18,7 +18,12 @@ class CoreHelp(commands.Cog):
 > `latency` : shows the latency in ms
 
 **Market Tools**
+> `create` : Become a trader
 > `bal` : Shows your balance
+> `mine` : Go to the mines
+> `beg` : No one likes a begger
+> `gamble` : Gamble away your copper <:PRAISEDALORD:1079102735011557407>
+> `give` : Give money to someone!
 """
             )
             embed.set_thumbnail(url=LOGO)

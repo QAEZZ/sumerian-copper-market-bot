@@ -1,8 +1,8 @@
 from discord import Embed, Color
 from constants import LOGO
 
-async def send(ctx, e):
-    print(e)
+async def send(ctx, e, print_error: bool = True):
+    if print_error: print(e)
     embed: Embed = Embed(
         description=f"```{e}```", color=Color.from_rgb(255,100,100)
     )
