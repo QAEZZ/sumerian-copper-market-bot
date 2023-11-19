@@ -21,7 +21,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install sqlalchemy
+        pip install sqlalchemy colorama
 
     - name: Run tests
       run: python src/tests/run_tests.py | tee test_output.txt
