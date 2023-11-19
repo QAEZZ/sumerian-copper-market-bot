@@ -6,7 +6,7 @@ src/.pytest_cache
 src/tests/.pytest_cache
 src/tests/tests
 
-src/secrets/*.key
-src/secrets/token.key
+src/client_secrets/*.key
+src/client_secrets/bard/*.key
 
 .vscode/

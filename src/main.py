@@ -108,7 +108,7 @@ def setup():
     asyncio.run(start_client())
 
 async def start_client():
-    with open(os.path.abspath("secrets/token.key"), "r") as f:
+    with open(os.path.abspath("client_secrets/token.key"), "r") as f:
         TOKEN = f.read()
 
         setup_db.setup()
