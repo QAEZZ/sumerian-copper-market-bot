@@ -6,14 +6,14 @@ Py Ver..: 3.10
 Database: sqlite3 (sqlalchemy)
 ```
 
-Hastily put this bot together because I enjoy bronze age shitpost.
+Hastily put this bot together because I enjoy bronze age shitpost. \
 This is my first time using an actual database for a d-bot. (sqlite3)
 
-I usually use JSON to store my data, but today I've decided to not be a dumbass and actually focus on improving my code.
+I usually use JSON to store my data, but today I've decided to not be a dumbass and actually focus on improving my code. \
 I also learned a lot about OOP, test-driven development, and GitHub Actions.
 
-The OOP part is mainly in `src/econ_types/trader.py`
-The TTD portion is obviously in `src/tests`,
+The OOP part is mainly in `src/econ_types/trader.py` \
+The TTD portion is obviously in `src/tests`, \
 The GH Actions are in the `actions` tab in the repo.
 
 I'm not sure what else to add to the bot.
