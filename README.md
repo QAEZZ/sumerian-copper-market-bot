@@ -34,7 +34,7 @@ I'm not sure what else to add to the bot.
 > `give` : Give money to someone!
 
 **Market Mod Tools**
-> `reset` : Reset a user's balance.
+> `reset` : Reset a user's balance. \
 > `delete` : Delete a user.
 
 ## Images:
