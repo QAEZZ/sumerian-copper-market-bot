@@ -52,12 +52,8 @@ class EconomyModeration(commands.Cog):
     @commands.check(_moderation_access)
     async def reset(self, ctx, member: discord.Member = None, grade_type: str = None):
         try:
-            if member is None:
-                await errorEmbed.send(ctx, "You must explicitly specify a member!", False)
-                return
-
-            if grade_type is None:
-                await errorEmbed.send(ctx, "You must explicitly specify a grade type!\n\nTypes:\nlow\nmedium\nhigh\nall", False)
+            if member is None or grade_type is None:
+                await errorEmbed.send(ctx, f"Incorrect usage!\n\nTypes:\nlow\nmedium\nhigh\nall\n\nEx.\n{PREFIX}reset <member> <grade>", False)
                 return
             
             grade_type = grade_type.lower()
