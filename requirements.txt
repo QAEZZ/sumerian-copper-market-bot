@@ -1,5 +1,4 @@
 discord
 colorama
 sqlalchemy
-g4f
 bardapi

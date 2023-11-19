@@ -1,4 +1,8 @@
 
+def google_makersuit() -> str:
+    with open('client_secrets/makersuite.key', 'r') as file_ms:
+        return file_ms.read()
+
 def bard_cookies() -> dict:
     try:
         with open('client_secrets/bard/Secure-1PSID.key', 'r') as file_1psid:

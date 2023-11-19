@@ -103,9 +103,9 @@ async def on_command_error(ctx, error):
         await ctx.reply(embed=embed)
 
 
-def setup():
+async def setup():
     tester.start()
-    asyncio.run(start_client())
+    await start_client()
 
 async def start_client():
     with open(os.path.abspath("client_secrets/token.key"), "r") as f:
@@ -117,4 +117,4 @@ async def start_client():
 
 
 if __name__ == "__main__":
-    setup()
+    asyncio.run(setup())
