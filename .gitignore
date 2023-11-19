@@ -6,4 +6,6 @@ src/.pytest_cache
 src/tests/.pytest_cache
 src/tests/tests
 
+src/secrets/*.key
+
 .vscode/

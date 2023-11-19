@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
 
-import constants
 import asyncio
-import os, sys
-
-import tests.run_tests as tester
 import datetime
+import os
+import sys
 
+import constants
 import discord
+import setup_db
+import tests.run_tests as tester
+from colorama import Back, Fore, Style, init
 from discord.ext import commands
-
-from colorama import init, Fore, Style, Back
-
 from helpers import cogs
 
 
@@ -22,10 +21,14 @@ class TerryClient(commands.Bot):
             help_command=None,
             intents=discord.Intents.all(),
             activity=constants.ACTIVITY,
+            case_insensitive=False
         )
         init(autoreset=True)
 
     async def on_ready(self):
+        print(
+            f"{Style.BRIGHT}{Back.BLUE}{Fore.BLACK}[ INFO    ]{Style.RESET_ALL}{Style.BRIGHT} :: {Style.RESET_ALL}Finding cogs..."
+        )
         children = [os.path.join("cogs", child) for child in os.listdir("cogs")]
         cog_folders = filter(os.path.isdir, children)
         for folder in cog_folders:
@@ -33,12 +36,12 @@ class TerryClient(commands.Bot):
                 if filename.endswith(".py"):
                     try:
                         dir = folder.replace("cogs/", "")
-                        print(
-                            f"{Style.BRIGHT}{Back.BLUE}{Fore.BLACK}[ INFO    ]{Style.RESET_ALL}{Style.BRIGHT} :: {Style.RESET_ALL}found cogs.{dir}.{filename}"
-                        )
+                        # print(
+                        #     f"{Style.BRIGHT}{Back.BLUE}{Fore.BLACK}[ INFO    ]{Style.RESET_ALL}{Style.BRIGHT} :: {Style.RESET_ALL}Found cogs.{dir}.{filename}"
+                        # )
                         await client.load_extension(f"cogs.{dir}.{filename[:-3]}")
                         print(
-                            f"{Style.BRIGHT}{Back.GREEN}{Fore.BLACK}[ SUCCESS ]{Style.RESET_ALL}{Style.BRIGHT} :: {Style.RESET_ALL}loaded cogs.{dir}.{filename}"
+                            f"{Style.BRIGHT}{Back.GREEN}{Fore.BLACK}[ SUCCESS ]{Style.RESET_ALL}{Style.BRIGHT} :: {Style.RESET_ALL}Loaded cogs.{dir}.{filename}"
                         )
                     except Exception as e:
                         print(
@@ -48,7 +51,6 @@ class TerryClient(commands.Bot):
         print(
             f"\n\nlogged in as {self.user}\nI am in {len(client.guilds)} server(s)!\n\ndiscord.py == {discord.__version__}\npython == {sys.version}\n\n"
         )
-
 
 client = TerryClient()
 
@@ -108,6 +110,8 @@ def setup():
 async def start_client():
     with open(os.path.abspath("secrets/token.key"), "r") as f:
         TOKEN = f.read()
+
+        setup_db.setup()
 
         await client.start(TOKEN)
 
