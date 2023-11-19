@@ -7,5 +7,6 @@ src/tests/.pytest_cache
 src/tests/tests
 
 src/secrets/*.key
+src/secrets/token.key
 
 .vscode/

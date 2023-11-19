@@ -24,6 +24,10 @@ class CoreHelp(commands.Cog):
 > `beg` : No one likes a begger
 > `gamble` : Gamble away your copper <:PRAISEDALORD:1079102735011557407>
 > `give` : Give money to someone!
+
+**Market Mod Tools**
+> `reset` : Reset a user's balance.
+> `delete` : Delete a user.
 """
             )
             embed.set_thumbnail(url=LOGO)

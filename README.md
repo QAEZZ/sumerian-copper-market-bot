@@ -33,6 +33,10 @@ I'm not sure what else to add to the bot.
 > `gamble` : Gamble away your copper \
 > `give` : Give money to someone!
 
+**Market Mod Tools**
+> `reset` : Reset a user's balance.
+> `delete` : Delete a user.
+
 ## Images:
 <details style="cursor: pointer;">
     <summary>Some Commands</summary>
