@@ -6,16 +6,14 @@ from typing import Union
 import helpers.db as db
 import setup_db
 from econ_types.trader import Trader
+from logger import Logger
 
+logger: Logger = Logger('[ test_db]')
 
 class TestDb(unittest.TestCase):
 
-    def ptm(self, message):
-        print(f'[ test_db] {message}')
-
     def setUp(self):
-        print('\n') # dumbass dot
-        self.ptm('Setting up the test...')
+        logger.important('Setting up the test...', True)
 
         self.test_db_path = "tests/db/traders_test.db"
         os.makedirs(os.path.dirname(self.test_db_path), exist_ok=True)
@@ -60,26 +58,26 @@ class TestDb(unittest.TestCase):
             os.remove(self.test_db_path)
 
     def test_create_trader(self):
-        self.ptm('Running test: test_create_trader')
+        logger.info('Running test: test_create_trader')
 
         retrieved_trader = db.get_trader(1, self.conn)
 
         self.assertEqual(retrieved_trader.user_id, 1)
-        self.ptm('TEST [1/4]: user_id')
+        logger.success('TEST [1/4]: user_id')
 
         self.assertEqual(retrieved_trader.low_grade_balance, 10)
-        self.ptm('TEST [2/4]: low_grade_balance')
+        logger.success('TEST [2/4]: low_grade_balance')
 
         self.assertEqual(retrieved_trader.medium_grade_balance, 20)
-        self.ptm('TEST [3/4]: medium_grade_balance')
+        logger.success('TEST [3/4]: medium_grade_balance')
 
         self.assertEqual(retrieved_trader.high_grade_balance, 30)
-        self.ptm('TEST [4/4]: high_grade_balance')
+        logger.success('TEST [4/4]: high_grade_balance')
 
-        self.ptm('Passed all test_create_trader tests.')
+        logger.important('Passed all test_create_trader tests.')
 
     def test_get_trader(self):
-        self.ptm('Running test: test_get_trader')
+        logger.info('Running test: test_get_trader')
 
         test_result = db.get_trader(1, self.conn)
 
@@ -90,21 +88,21 @@ class TestDb(unittest.TestCase):
                 f"type.__name__...: {type(test_result).__name__}")
 
         self.assertEqual(test_result.user_id, 1)
-        self.ptm('TEST [1/4]: user_id')
+        logger.success('TEST [1/4]: user_id')
 
         self.assertEqual(test_result.low_grade_balance, 10)
-        self.ptm('TEST [2/4]: low_grade_balance')
+        logger.success('TEST [2/4]: low_grade_balance')
 
         self.assertEqual(test_result.medium_grade_balance, 20)
-        self.ptm('TEST [3/4]: medium_grade_balance')
+        logger.success('TEST [3/4]: medium_grade_balance')
 
         self.assertEqual(test_result.high_grade_balance, 30)
-        self.ptm('TEST [4/4]: high_grade_balance')
+        logger.success('TEST [4/4]: high_grade_balance')
 
-        self.ptm('Passed all test_get_trader tests.')
+        logger.important('Passed all test_get_trader tests.')
     
     def test_update_trader(self):
-        self.ptm('Running test: test_update_trader')
+        logger.info('Running test: test_update_trader')
 
         test_result = db.update_trader(1, self.conn,
                                        low_grade_balance=111,
@@ -116,32 +114,32 @@ class TestDb(unittest.TestCase):
                       f'It returned type {type(test_result).__name__}: {test_result}')
         
         self.assertTrue(test_result)
-        self.ptm('TEST [1/1]: True received')
+        logger.success('TEST [1/1]: True received')
 
-        self.ptm('Passed all test_update_trader tests.')
+        logger.important('Passed all test_update_trader tests.')
 
     def test_delete_trader(self):
-        self.ptm('Running test: test_delete_trader')
+        logger.info('Running test: test_delete_trader')
 
         # verify the trader exists before deleting
         retrieved_trader_before = db.get_trader(1, self.conn)
         self.assertIsNotNone(retrieved_trader_before)
-        self.ptm('TEST [1/3]: Trader exists')
+        logger.success('TEST [1/3]: Trader exists')
 
         test_result = db.delete_trader(1, self.conn)
 
         self.assertTrue(test_result)
-        self.ptm('TEST [2/3]: Trader deleted')
+        logger.success('TEST [2/3]: Trader deleted')
 
         # verify that the trader no longer exists after deletion
         retrieved_trader_after = db.get_trader(1, self.conn)
         self.assertFalse(retrieved_trader_after)
-        self.ptm('TEST [3/3]: Trader does not exist after deletion')
+        logger.success('TEST [3/3]: Trader does not exist after deletion')
 
-        self.ptm('Passed all test_delete_trader tests.')
+        logger.important('Passed all test_delete_trader tests.')
     
     def test_reset_trader_all_balances(self):
-        self.ptm('Running test: test_reset_trader_all_balances')
+        logger.info('Running test: test_reset_trader_all_balances')
 
         test_result = db.reset_trader_all_balances(1, self.conn)
 
@@ -150,23 +148,23 @@ class TestDb(unittest.TestCase):
                       f'It returned type {type(test_result).__name__}: {test_result}')
         
         self.assertTrue(test_result)
-        self.ptm('TEST [1/4]: True received')
+        logger.success('TEST [1/4]: True received')
 
         test_result_confirm = db.get_trader(1, self.conn)
 
         self.assertEqual(test_result_confirm.low_grade_balance, 0)
-        self.ptm('TEST [2/4]: low_grade_balance is 0')
+        logger.success('TEST [2/4]: low_grade_balance is 0')
 
         self.assertEqual(test_result_confirm.medium_grade_balance, 0)
-        self.ptm('TEST [3/4]: medium_grade_balance is 0')
+        logger.success('TEST [3/4]: medium_grade_balance is 0')
 
         self.assertEqual(test_result_confirm.high_grade_balance, 0)
-        self.ptm('TEST [4/4]: high_grade_balance is 0')
+        logger.success('TEST [4/4]: high_grade_balance is 0')
 
-        self.ptm('Passed all test_reset_trader_all_balances tests.')
+        logger.important('Passed all test_reset_trader_all_balances tests.')
     
     def test_reset_trader_grade_balance(self):
-        self.ptm('Running test: test_reset_trader_grade_balance')
+        logger.info('Running test: test_reset_trader_grade_balance')
 
         test_result_low_grade = db.reset_trader_grade_balance(1, 'low_grade_balance', self.conn)
         test_result_medium_grade = db.reset_trader_grade_balance(1, 'medium_grade_balance', self.conn)
@@ -185,24 +183,24 @@ class TestDb(unittest.TestCase):
                       f'It returned type {type(test_result_high_grade).__name__}: {test_result_high_grade}')
         
         self.assertTrue(test_result_low_grade)
-        self.ptm('TEST [1/6]: True received from test_result_low_grade')
+        logger.success('TEST [1/6]: True received from test_result_low_grade')
 
         self.assertTrue(test_result_medium_grade)
-        self.ptm('TEST [2/6]: True received from test_result_medium_grade')
+        logger.success('TEST [2/6]: True received from test_result_medium_grade')
 
         self.assertTrue(test_result_high_grade)
-        self.ptm('TEST [3/6]: True received from test_result_high_grade')
+        logger.success('TEST [3/6]: True received from test_result_high_grade')
 
         test_result = db.get_trader(1, self.conn)
 
         self.assertEqual(test_result.low_grade_balance, 0)
-        self.ptm('TEST [4/6]: low_grade_balance is 0')
+        logger.success('TEST [4/6]: low_grade_balance is 0')
 
         self.assertEqual(test_result.medium_grade_balance, 0)
-        self.ptm('TEST [4/6]: medium_grade_balance is 0')
+        logger.success('TEST [5/6]: medium_grade_balance is 0')
 
         self.assertEqual(test_result.high_grade_balance, 0)
-        self.ptm('TEST [4/6]: high_grade_balance is 0')
+        logger.success('TEST [6/6]: high_grade_balance is 0')
 
-        self.ptm('Passed all test_reset_trader_grade_balance tests.')
+        logger.important('Passed all test_reset_trader_grade_balance tests.')
 
