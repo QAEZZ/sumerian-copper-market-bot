@@ -21,7 +21,7 @@ class TestSetupDB(unittest.TestCase):
     def test_setup_creates_table(self):
         logger.info("Running test: test_setup_creates_table")
 
-        setup_db.setup(self.test_db_path)
+        setup_db.setup(self.test_db_path, False)
 
         with sqlite3.connect(self.test_db_path) as conn:
             cursor = conn.cursor()

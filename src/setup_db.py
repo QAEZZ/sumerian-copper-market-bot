@@ -1,8 +1,11 @@
 import sqlite3
+from colorama import init, Fore, Back, Style
+
+init(True)
 
 
 def setup(db_path: str = "db/traders.db", print_info: bool = True, dont_close_conn: bool = False):
-    if print_info: print("[setup_db] Setting up the database...")
+    if print_info: print(f"{Style.BRIGHT}{Back.BLUE}{Fore.BLACK}[ INFO    ]{Style.RESET_ALL}{Style.BRIGHT} :: {Style.RESET_ALL}Setting up the database...")
     conn = sqlite3.connect(db_path)
 
     conn.execute(
@@ -17,5 +20,5 @@ def setup(db_path: str = "db/traders.db", print_info: bool = True, dont_close_co
     """
     )
 
-    if print_info: print("[setup_db] Table 'traders' created successfully.")
+    if print_info: print(f"{Style.BRIGHT}{Back.GREEN}{Fore.BLACK}[ SUCCESS ]{Style.RESET_ALL}{Style.BRIGHT} :: {Style.RESET_ALL}Table 'traders' created successfully.")
     if not dont_close_conn: conn.close()
