@@ -26,5 +26,5 @@ jobs:
     - name: Run tests
       run: python src/tests/run_tests.py | tee test_output.txt
 
-    - name: Display test results
+    - name: Display clean test results
       run: cat test_output.txt
