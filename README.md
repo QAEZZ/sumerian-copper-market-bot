@@ -31,11 +31,12 @@ I'm not sure what else to add to the bot.
 > `mine` : Go to the mines \
 > `beg` : No one likes a begger \
 > `gamble` : Gamble away your copper \
-> `give` : Give money to someone!
+> `give` : Give money to someone \
+> `ask` : Ask Ea-Nasir something
 
 **Market Mod Tools**
-> `reset` : Reset a user's balance. \
-> `delete` : Delete a user.
+> `reset` : Reset a user's balance \
+> `delete` : Delete a user
 
 ## Images:
 <details style="cursor: pointer;">

@@ -23,11 +23,12 @@ class CoreHelp(commands.Cog):
 > `mine` : Go to the mines
 > `beg` : No one likes a begger
 > `gamble` : Gamble away your copper <:PRAISEDALORD:1079102735011557407>
-> `give` : Give money to someone!
+> `give` : Give money to someone
+> `ask` : Ask Ea-Nasir something
 
 **Market Mod Tools**
-> `reset` : Reset a user's balance.
-> `delete` : Delete a user.
+> `reset` : Reset a user's balance
+> `delete` : Delete a user
 """
             )
             embed.set_thumbnail(url=LOGO)
