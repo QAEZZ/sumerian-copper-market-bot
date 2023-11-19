@@ -1,13 +1,13 @@
 import os
 import sys
 import unittest
-from logger import Logger
 
 if __name__ == '__main__':
     sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-else:
-    sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
+
+from logger import Logger
 from test_db import TestDb
 from test_setup_db import TestSetupDB
 from test_trader import TestTrader
