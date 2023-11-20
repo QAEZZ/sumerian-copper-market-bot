@@ -16,15 +16,15 @@ def generate_weighted_numbers(
     return [
         random.choices(
             list(range(20, 151)),
-            weights=[low_grade_weight if i <= 87 else 0.35 for i in range(25, 151)],
+            weights=[low_grade_weight if i <= 87 else 0.35 for i in range(20, 151)],
         )[0],
         random.choices(
             list(range(10, 101)),
-            weights=[medium_grade_weight if i <= 58 else 0.25 for i in range(15, 101)],
+            weights=[medium_grade_weight if i <= 58 else 0.25 for i in range(10, 101)],
         )[0],
         random.choices(
             list(range(51)),
-            weights=[high_grade_weight if i <= 21 else 0.15 for i in range(26)],
+            weights=[high_grade_weight if i <= 21 else 0.15 for i in range(51)],
         )[0],
     ]
 
@@ -99,27 +99,33 @@ class EconomyWork(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 3600, commands.BucketType.user)
     async def beg(self, ctx):
-        low_grade, medium_grade, high_grade = generate_weighted_numbers(1, 1, 1)
+        try:
+            low_grade, medium_grade, high_grade = generate_weighted_numbers(1, 1, 1)
 
-        low_grade = floor(low_grade / 2)
-        medium_grade = floor(medium_grade / 4)
-        high_grade = 0
+            low_grade = floor(low_grade / 2)
+            medium_grade = floor(medium_grade / 4)
+            high_grade = 0
 
-        await self._process_work_command(
-            ctx,
-            "A kind soul has given you the following:",
-            low_grade,
-            medium_grade,
-            high_grade,
-        )
+            await self._process_work_command(
+                ctx,
+                "A kind soul has given you the following:",
+                low_grade,
+                medium_grade,
+                high_grade,
+            )
+        except Exception as e:
+            await errorEmbed.send(ctx, e)
 
     @commands.command()
     @commands.cooldown(1, 7200, commands.BucketType.user)
     async def mine(self, ctx):
-        low_grade, medium_grade, high_grade = generate_weighted_numbers()
-        await self._process_work_command(
-            ctx, "This is your haul from mining:", low_grade, medium_grade, high_grade
-        )
+        try:
+            low_grade, medium_grade, high_grade = generate_weighted_numbers()
+            await self._process_work_command(
+                ctx, "This is your haul from mining:", low_grade, medium_grade, high_grade
+            )
+        except Exception as e:
+            await errorEmbed.send(ctx, e)
 
     @commands.command()
     async def gamble(self, ctx, amount_to_gamble: int, what_to_gamble: str):
