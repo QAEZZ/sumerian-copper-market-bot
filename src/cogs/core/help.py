@@ -25,6 +25,7 @@ class CoreHelp(commands.Cog):
 > `gamble` : Gamble away your copper <:PRAISEDALORD:1079102735011557407>
 > `give` : Give money to someone
 > `ask` : Ask Ea-Nasir something
+> `rps` : Play RPS with Ea-Nasir, place bets even
 
 **Market Mod Tools**
 > `reset` : Reset a user's balance
