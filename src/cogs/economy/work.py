@@ -6,7 +6,7 @@ from constants import EMBED_COLOR, LOGO, PREFIX
 from discord.ext import commands
 from helpers import db, errorEmbed
 
-GAMBLE_THRESHOLDS = {"low": 35, "medium": 45, "high": 20}
+GAMBLE_THRESHOLDS = {"low": 35, "medium": 45, "high": 30}
 
 def generate_weighted_numbers(
     low_grade_weight: float = 0.65,
