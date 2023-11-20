@@ -32,7 +32,8 @@ I'm not sure what else to add to the bot.
 > `beg` : No one likes a begger \
 > `gamble` : Gamble away your copper \
 > `give` : Give money to someone \
-> `ask` : Ask Ea-Nasir something
+> `ask` : Ask Ea-Nasir something \
+> `rps` : Play RPS with Ea-Nasir, place bets even
 
 **Market Mod Tools**
 > `reset` : Reset a user's balance \

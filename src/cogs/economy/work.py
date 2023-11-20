@@ -6,27 +6,32 @@ from constants import EMBED_COLOR, LOGO, PREFIX
 from discord.ext import commands
 from helpers import db, errorEmbed
 
-GAMBLE_THRESHOLDS = {"low": 85, "medium": 58, "high": 14}
+GAMBLE_THRESHOLDS = {"low": 35, "medium": 45, "high": 20}
 
-
-def generate_weighted_numbers(low_grade_weight: float = 0.65, medium_grade_weight: float = 0.75, high_grade_weight: float = 0.85) -> list[int, int, int]:
+def generate_weighted_numbers(
+    low_grade_weight: float = 0.65,
+    medium_grade_weight: float = 0.75,
+    high_grade_weight: float = 0.85,
+) -> list[int, int, int]:
     return [
         random.choices(
-            list(range(25, 151)),
+            list(range(20, 151)),
             weights=[low_grade_weight if i <= 87 else 0.35 for i in range(25, 151)],
         )[0],
         random.choices(
-            list(range(15, 101)),
+            list(range(10, 101)),
             weights=[medium_grade_weight if i <= 58 else 0.25 for i in range(15, 101)],
         )[0],
         random.choices(
-            list(range(26)),
+            list(range(51)),
             weights=[high_grade_weight if i <= 21 else 0.15 for i in range(26)],
         )[0],
     ]
 
 
-def create_basic_embed(title="", description="", thumbnail_url=LOGO):
+def create_basic_embed(
+    title: str = "", description: str = "", thumbnail_url: str = LOGO
+) -> discord.Embed:
     embed = discord.Embed(color=EMBED_COLOR)
     embed.set_thumbnail(url=thumbnail_url)
     embed.title = title
@@ -39,8 +44,8 @@ class EconomyWork(commands.Cog):
         self.bot = bot
 
     async def _process_work_command(
-        self, ctx, title, low_grade, medium_grade, high_grade
-    ):
+        self, ctx, title: str, low_grade: int, medium_grade: int, high_grade: int
+    ) -> None:
         try:
             result = db.get_trader(ctx.author.id)
             embed = create_basic_embed()
@@ -137,7 +142,7 @@ class EconomyWork(commands.Cog):
             if not result:
                 await errorEmbed.send(
                     ctx,
-                    f"Couldn't find your trader information. Have you run `{PREFIX}create`?",
+                    f"Couldn't find your trader information. Have you ran `{PREFIX}create`?",
                     False,
                 )
                 return
@@ -181,6 +186,66 @@ class EconomyWork(commands.Cog):
 
         except Exception as e:
             await errorEmbed.send(ctx, e)
+
+    @commands.command()
+    async def rps(self, ctx, choice: str = None, grade: str = None, bet: int = 0):
+        valid_choices = ["rock", "paper", "scissors"]
+
+        if choice is None or choice.lower() not in valid_choices:
+            await errorEmbed.send(ctx, f"Incorrect usage!\n\nEx.\n{PREFIX}rps <choice> [grade] [amount]", False)
+            return
+
+        choice = choice.lower()
+        user_choice_index = valid_choices.index(choice)
+
+        computer_choice_index = random.randint(0, 2)
+
+        while hasattr(self, "last_computer_choice") and computer_choice_index == self.last_computer_choice:
+            computer_choice_index = random.randint(0, 2)
+
+        self.last_computer_choice = computer_choice_index
+
+        embed: discord.Embed = create_basic_embed(description=f"Ea-Nasir picked `{valid_choices[computer_choice_index]}`, you picked `{choice}`.")
+
+        if user_choice_index == computer_choice_index:
+            embed.title = "It's a tie!"
+            embed.description = "You have tied with Ea-Nasir."
+            await ctx.reply(embed=embed)
+            return
+
+        elif (user_choice_index == 0 and computer_choice_index == 2) or \
+            (user_choice_index == 1 and computer_choice_index == 0) or \
+            (user_choice_index == 2 and computer_choice_index == 1):
+            embed.title = "You won, Trader!"
+        else:
+            embed.title = "Ea-Nasir snatched your copper!"
+            bet = bet * -1
+
+        if grade is None and bet is None:
+            await ctx.reply(embed=embed)
+            return
+
+        elif grade not in ["low", "medium", "high"]:
+            await errorEmbed.send(ctx, f"Incorrect usage!\n\nEx.\n{PREFIX}rps <choice> [grade] [amount]", False)
+            return
+
+        result = db.get_trader(ctx.author.id)
+
+        if not result:
+            await errorEmbed.send(ctx, f"Couldn't find your trader information. Have you run `{PREFIX}create`?", False)
+
+        elif bet > int(getattr(result, f"{grade}_grade_balance", 0)):
+            await errorEmbed.send(ctx, f'You do not have enough {grade} balance.\nYou have {getattr(result, f"{grade}_grade_balance", 0)} grade balance.', False)
+            return
+
+        update_result = db.execute_raw_sql(f"UPDATE traders SET {grade}_grade_balance = {grade}_grade_balance + {bet} WHERE user_id={ctx.author.id}")
+
+        await ctx.reply(embed=embed)
+
+        if update_result is not True:
+            await errorEmbed.send(ctx, f"There was an error updating your balance.\n\n{update_result}", False)
+
+
 
 
 async def setup(bot):
