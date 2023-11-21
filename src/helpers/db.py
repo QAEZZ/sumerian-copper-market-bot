@@ -10,7 +10,7 @@ def create_trader(trader_instance, conn: sqlite3.Connection = None) -> None:
     medium_grade_balance = trader_instance.medium_grade_balance
     high_grade_balance = trader_instance.high_grade_balance
 
-    conn = conn or sqlite3.connect("db/traders.db")
+    conn = conn or sqlite3.connect("data/traders.db")
     cursor = conn.cursor()
 
     cursor.execute(
@@ -24,7 +24,8 @@ def create_trader(trader_instance, conn: sqlite3.Connection = None) -> None:
 
 
 def get_trader(user_id, conn: sqlite3.Connection = None) -> Union[Trader, bool]:
-    conn = conn or sqlite3.connect("db/traders.db")
+    """Returns type Trader if successful, else it returns a bool False."""
+    conn = conn or sqlite3.connect("data/traders.db")
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM traders WHERE user_id=?", (user_id,))
@@ -46,8 +47,9 @@ def get_trader(user_id, conn: sqlite3.Connection = None) -> Union[Trader, bool]:
 
 
 def update_trader(user_id, conn: sqlite3.Connection = None, **kwargs) -> Union[bool, str]:
+    """Returns bool True if successful, else it returns a string with the error."""
     try:
-        conn = conn or sqlite3.connect("db/traders.db")
+        conn = conn or sqlite3.connect("data/traders.db")
         cursor = conn.cursor()
 
         cursor.execute(f"PRAGMA table_info(traders)")
@@ -73,8 +75,9 @@ def update_trader(user_id, conn: sqlite3.Connection = None, **kwargs) -> Union[b
 
 
 def delete_trader(user_id, conn: sqlite3.Connection = None) -> Union[bool, str]:
+    """Returns bool True if successful, else it returns a string with the error."""
     try:
-        conn = conn or sqlite3.connect("db/traders.db")
+        conn = conn or sqlite3.connect("data/traders.db")
         cursor = conn.cursor()
 
         cursor.execute("DELETE FROM traders WHERE user_id=?", (user_id,))
@@ -92,8 +95,9 @@ def delete_trader(user_id, conn: sqlite3.Connection = None) -> Union[bool, str]:
 def reset_trader_all_balances(
     user_id, conn: sqlite3.Connection = None
 ) -> Union[bool, str]:
+    """Returns bool True if successful, else it returns a string with the error."""
     try:
-        conn = conn or sqlite3.connect("db/traders.db")
+        conn = conn or sqlite3.connect("data/traders.db")
         cursor = conn.cursor()
 
         cursor.execute(
@@ -112,8 +116,9 @@ def reset_trader_all_balances(
 
 
 def reset_trader_grade_balance(user_id, grade_type, conn: sqlite3.Connection = None) -> Union[bool, str]:
+    """Returns bool True if successful, else it returns a string with the error."""
     try:
-        conn = conn or sqlite3.connect("db/traders.db")
+        conn = conn or sqlite3.connect("data/traders.db")
         cursor = conn.cursor()
 
         valid_grade_types = [
@@ -138,18 +143,22 @@ def reset_trader_grade_balance(user_id, grade_type, conn: sqlite3.Connection = N
         return e
 
 
-def execute_raw_sql(sql_string: str, conn: sqlite3.Connection = None) -> Union[bool, str]:
+def execute_raw_sql(sql_string: str, conn: sqlite3.Connection = None, fetch: bool = False) -> Union[bool, str, None]:
+    """Returns bool True if successful, else it returns a string with the error. If fetch is True, returns the output."""
     try:
-        conn = conn or sqlite3.connect("db/traders.db")
+        conn = conn or sqlite3.connect("data/traders.db")
         cursor = conn.cursor()
 
         cursor.execute(sql_string)
 
+        if fetch:
+            result = cursor.fetchall()
+            cursor.close()
+            return result
+
         conn.commit()
         cursor.close()
-        
-
         return True
 
     except Exception as e:
-        return e
+        return str(e)

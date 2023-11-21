@@ -1,0 +1,63 @@
+{
+    "help": {
+      "description": "Display a list of available commands or get help for a specific command.",
+      "usage": "help [command]"
+    },
+    "info": {
+      "description": "Display information about the client.",
+      "usage": "info"
+    },
+    "latency": {
+      "description": "Show the client's ping in milliseconds.",
+      "usage": "latency"
+    },
+    "create": {
+      "description": "Initialize yourself in the database, required in order to use most of the economy commands.",
+      "usage": "create"
+    },
+    "bal": {
+      "description": "Show your balance or someone else's.",
+      "usage": "bal [user: default is you]"
+    },
+    "mine": {
+      "description": "One way of earning money, you get low, medium, and high grade copper.",
+      "usage": "mine"
+    },
+    "beg": {
+      "description": "Beg for money. you get low and medium grade copper.",
+      "usage": "beg"
+    },
+    "gamble": {
+      "description": "Gamble away your copper, not much else to be said.\nWinnings are double your bet. If you lose, you just lose your bet.",
+      "usage": "gamble <amount> <type>"
+    },
+    "give": {
+      "description": "Give a user some of your copper.",
+      "usage": "give <user> <type> <amount>"
+    },
+    "ask": {
+      "description": "Ask Ea-Nasir a question, or have a discussion. Powered by AI.\nIf you reply to a message previously sent by Ea-Nasir, he will take that message into context.",
+      "usage": "ask <text>"
+    },
+    "rps": {
+      "description": "Play rock, paper, scissors against Ea-Nasir. You can bet if you want.\nUnlike gambling, your winnings are NOT doubled.",
+      "usage": "rps <choice> [type] [amount]"
+    },
+    "lb": {
+      "description": "Show the leaderboard across all of Discord.",
+      "usage": "lb [type: default is high; 'all' is available]"
+    },
+    "convert": {
+      "description": "Pretty self-explanatory, convert from one grade of copper to another.",
+      "usage": "convert <amount> <from type> <to type>"
+    },
+    "reset": {
+      "description": "For economy moderators, reset a trader's balance or just a certain grade.",
+      "usage": "reset <user> <type, 'all' is available>"
+    },
+    "delete": {
+      "description": "For the bot owner, delete a user from the database.",
+      "usage": "delete <user>"
+    }
+  }
+  

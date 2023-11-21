@@ -139,7 +139,8 @@ class EconomyWork(commands.Cog):
             ):
                 await errorEmbed.send(
                     ctx,
-                    "Invalid gamble type. Please choose 'low', 'medium', or 'high'.\n\nEx.\ncsm.gamble 10 low\ncsm.gamble <amount> <type>",
+                    f"Invalid gamble type. Please choose 'low', 'medium', or 'high'.\n\nEx.\n{PREFIX}.gamble 10 low\n{PREFIX}.gamble <amount> <type>",
+                    False
                 )
                 return
 
@@ -175,7 +176,7 @@ class EconomyWork(commands.Cog):
             change_in_balance = amount_to_gamble * (
                 2 if gamble_result > threshold else -1
             )
-            embed.description = f"You {'gained' if gamble_result > threshold else 'lost'} `{change_in_balance}` in {what_to_gamble}-grade balance."
+            embed.description = f"You {'gained' if gamble_result > threshold else 'lost'} `{change_in_balance:,}` in {what_to_gamble}-grade balance."
 
             update_result = db.execute_raw_sql(
                 f"UPDATE traders SET {what_to_gamble}_grade_balance = {what_to_gamble}_grade_balance + {change_in_balance} WHERE user_id={ctx.author.id}"
