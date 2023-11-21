@@ -4,7 +4,7 @@ from colorama import init, Fore, Back, Style
 init(True)
 
 
-def setup(db_path: str = "db/traders.db", print_info: bool = True, dont_close_conn: bool = False):
+def setup(db_path: str = "data/traders.db", print_info: bool = True, dont_close_conn: bool = False):
     if print_info: print(f"{Style.BRIGHT}{Back.BLUE}{Fore.BLACK}[ INFO    ]{Style.RESET_ALL}{Style.BRIGHT} :: {Style.RESET_ALL}Setting up the database...")
     conn = sqlite3.connect(db_path)
 
