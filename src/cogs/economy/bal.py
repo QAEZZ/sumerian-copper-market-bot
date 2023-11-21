@@ -58,6 +58,11 @@ class EconomyBal(commands.Cog):
             if grade not in allowed_grades:
                 await errorEmbed.send(ctx, f"Incorrect usage!\n\nTypes:\nlow\nmedium\nhigh\nall\n\nEx.\n{PREFIX}lb [type: default 'high']", False)
                 return
+            
+            embed: discord.Embed = discord.Embed(title='Loading...', color=EMBED_COLOR)
+            embed.set_thumbnail(url=LOGO)
+            
+            msg = await ctx.reply(embed=embed)
 
             if grade == 'all':
                 query = "SELECT * FROM traders ORDER BY (low_grade_balance + medium_grade_balance + high_grade_balance) DESC LIMIT 10"
@@ -67,11 +72,7 @@ class EconomyBal(commands.Cog):
             initial_result = db.execute_raw_sql(query)
 
             if initial_result:
-                embed: discord.Embed = discord.Embed(
-                    title=f"Top 10 for {grade}{'-grade balance' if grade != 'all' else ' balances'}.",
-                    color=EMBED_COLOR
-                )
-                embed.set_thumbnail(url=LOGO)
+                embed.title = f"Top 10 for {grade}{'-grade balance' if grade != 'all' else ' balances'}."
                 if grade == 'all': embed.set_footer(text="NOTICE: 'all' balances can be swayed by putting all your balances to low-grade.")
 
                 results = db.execute_raw_sql(query, fetch=True)
@@ -94,7 +95,7 @@ class EconomyBal(commands.Cog):
 
                     counter += 1
 
-                await ctx.reply(embed=embed)
+                await msg.edit(embed=embed)
             else:
                 await errorEmbed.send(ctx, "Error fetching leaderboard.", False)
         
