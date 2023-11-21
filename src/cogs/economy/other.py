@@ -47,8 +47,6 @@ class EconomyOther(commands.Cog):
             elif convert_amount > getattr(result, f'{convert_from}_grade_balance', 0):
                 await errorEmbed.send(ctx, f"You do not that much {convert_from}-grade balance!", False)
                 return
-            embed: discord.Embed = create_basic_embed('Loading...')
-            msg = await ctx.reply(embed=embed)
             
 
             conversion_rate = CONVERSIONS[convert_to] / CONVERSIONS[convert_from]
@@ -68,11 +66,13 @@ class EconomyOther(commands.Cog):
                 await errorEmbed.send(ctx, f"Error updating the database: {e}", False)   
                 return
                 
-            embed.title = 'Converted!'
-            embed.description = f'Successfully converted `{convert_amount:,}` {convert_from}-grade to `{converted_amount:,}` {convert_to}-grade.'
+            embed: discord.Embed = create_basic_embed(
+                f'Converted!',
+                f'Successfully converted `{convert_amount:,}` {convert_from}-grade to `{converted_amount:,}` {convert_to}-grade.'
+            )
             embed.set_footer(text='rounded to the nearest whole number')
                 
-            await msg.edit(embed=embed)
+            await ctx.reply(embed=embed)
         
         except Exception as e:
             await errorEmbed.send(ctx, e)
